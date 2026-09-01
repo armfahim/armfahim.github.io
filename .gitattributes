@@ -1,0 +1,15 @@
+# Never apply text/EOL normalization to binary assets
+*.pdf   binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.woff  binary
+*.woff2 binary
+
+# Normalize line endings for text sources
+*.html  text eol=lf
+*.css   text eol=lf
+*.js    text eol=lf
+*.md    text eol=lf
