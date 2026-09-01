@@ -15,10 +15,11 @@ Personal portfolio website for **A.R.M. Fahim**, Software Engineer (Java · Spri
 
 ```
 .
-├── index.html      # Page content
-├── css/style.css   # Styles & theming
-├── js/main.js      # Interactions (theme, reveal, typewriter, nav)
-└── assets/         # Images / static files
+├── index.html          # Page content
+├── css/style.css       # Styles & theming
+├── js/main.js          # Interactions (theme, reveal, typewriter, nav)
+├── assets/             # Static files, incl. the generated CV PDF
+└── tools/make_cv.py    # Regenerates the downloadable CV (see below)
 ```
 
 ## Local preview
@@ -30,6 +31,19 @@ python -m http.server 8000
 ```
 
 Then visit http://localhost:8000
+
+## Updating the CV
+
+The privacy-cleaned CV (`assets/A.R.M.-Fahim-CV.pdf`) — email, LinkedIn, and city
+only; no phone, address, or references' contacts — is generated from a script.
+Edit the content in `tools/make_cv.py`, then regenerate:
+
+```bash
+pip install -r tools/requirements.txt
+python tools/make_cv.py
+```
+
+It writes straight into `assets/`, so just commit the updated PDF afterwards.
 
 ## Deploy (GitHub Pages)
 
