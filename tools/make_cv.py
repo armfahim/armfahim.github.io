@@ -135,6 +135,8 @@ contact = (
     '&nbsp;&nbsp;|&nbsp;&nbsp; '
     '<a href="https://www.linkedin.com/in/a-r-m-fahim-9b5006122/"><font color="#6366f1">LinkedIn</font></a> '
     '&nbsp;&nbsp;|&nbsp;&nbsp; '
+    '<a href="https://github.com/armfahim"><font color="#6366f1">GitHub</font></a> '
+    '&nbsp;&nbsp;|&nbsp;&nbsp; '
     '<a href="https://armfahim.github.io"><font color="#6366f1">armfahim.github.io</font></a>'
 )
 story.append(Paragraph(contact, styles["contact"]))
