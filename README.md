@@ -47,3 +47,9 @@ It writes straight into `assets/`, so just commit the updated PDF afterwards.
 This repo is named `armfahim.github.io`, so pushing to the `main` branch
 publishes automatically at https://armfahim.github.io. In the repo:
 **Settings → Pages → Source: Deploy from a branch → `main` / `root`.**
+
+## Custom domain
+
+To serve the site from `armfahim.com` (registered via Cloudflare) with free HTTPS,
+follow [docs/CUSTOM-DOMAIN.md](docs/CUSTOM-DOMAIN.md) — exact DNS records and GitHub
+steps, in order.
