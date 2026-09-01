@@ -161,7 +161,7 @@ story.append(skill_row("Languages", "Bangla (Native), English (Professional)"))
 # ---- Experience ----
 story += section("Professional Experience")
 
-story += job_header("Software Engineer", "United Hospital Limited", "Jun 2025 – Present")
+story += job_header("Software Engineer", "Continental Hospital PLC", "Jun 2025 – Present")
 story += bullets([
     "Develop and maintain Hospital Management System modules using Java, Spring Boot, and SQL.",
     "Design and implement scalable RESTful APIs for clinical and operational workflows.",
