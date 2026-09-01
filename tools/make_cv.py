@@ -144,7 +144,7 @@ story.append(HRFlowable(width="100%", thickness=1.4, color=LINE, spaceBefore=3, 
 # ---- Summary ----
 story += section("Summary")
 story.append(Paragraph(
-    "Software Engineer with 6+ years building reliable, scalable backend systems in Java and Spring Boot. "
+    "Software Engineer with 5+ years building reliable, scalable backend systems in Java and Spring Boot. "
     "Experienced across healthcare, enterprise, and data-driven platforms — designing RESTful APIs, "
     "optimizing database performance, and delivering clean, maintainable, object-oriented code. "
     "Committed to hard work, effective under pressure, and focused on building enduring relationships in software engineering.",
