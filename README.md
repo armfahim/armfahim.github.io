@@ -25,14 +25,5 @@ Personal portfolio website for **A.R.M. Fahim**, Software Engineer (Java · Spri
 
 Just open `index.html` in a browser, or serve the folder:
 
-```bash
-python -m http.server 8000
-```
 
 Then visit http://localhost:8000
-
-## Deploy (GitHub Pages)
-
-This repo is named `armfahim.github.io`, so pushing to the `main` branch
-publishes automatically at https://armfahim.github.io. In the repo:
-**Settings → Pages → Source: Deploy from a branch → `main` / `root`.**
