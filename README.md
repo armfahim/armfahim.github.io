@@ -18,8 +18,9 @@ Personal portfolio website for **A.R.M. Fahim**, Software Engineer (Java · Spri
 ├── index.html          # Page content
 ├── css/style.css       # Styles & theming
 ├── js/main.js          # Interactions (theme, reveal, typewriter, nav)
-├── assets/             # Static files, incl. the generated CV PDF
-└── tools/make_cv.py    # Regenerates the downloadable CV (see below)
+├── assets/             # Static files: profile photo, generated CV PDF & OG card
+├── tools/make_cv.py    # Regenerates the downloadable CV (see below)
+└── tools/make_og.py    # Regenerates the 1200x630 social share card (assets/og-image.jpg)
 ```
 
 ## Local preview
