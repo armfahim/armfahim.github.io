@@ -113,4 +113,45 @@
   /* ---- Footer year ---- */
   var y = document.getElementById('year');
   if (y) y.textContent = new Date().getFullYear();
+
+  /* ---- Contact form (Web3Forms, AJAX) ---- */
+  var form = document.getElementById('contactForm');
+  if (form) {
+    var status = document.getElementById('cformStatus');
+    var submit = form.querySelector('.cform__submit');
+    var label = form.querySelector('.cform__btn-label');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      status.className = 'cform__status';
+      status.textContent = '';
+      submit.disabled = true;
+      var original = label.textContent;
+      label.textContent = 'Sending…';
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form)
+      })
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, data: j }; }); })
+        .then(function (res) {
+          if (res.ok && res.data.success) {
+            status.className = 'cform__status ok';
+            status.textContent = "Thanks! Your message has been sent — I'll get back to you soon.";
+            form.reset();
+          } else {
+            status.className = 'cform__status err';
+            status.textContent = (res.data && res.data.message) ? res.data.message
+              : 'Something went wrong. Please email me directly at armfahim4010@gmail.com.';
+          }
+        })
+        .catch(function () {
+          status.className = 'cform__status err';
+          status.textContent = 'Network error. Please email me directly at armfahim4010@gmail.com.';
+        })
+        .finally(function () {
+          submit.disabled = false;
+          label.textContent = original;
+        });
+    });
+  }
 })();

@@ -267,6 +267,33 @@ strong { color: var(--text); font-weight: 600; }
 .contact__lead { color: var(--text-dim); font-size: 1.15rem; margin-bottom: 30px; }
 .contact__actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
+/* Contact form */
+.cform { text-align: left; display: grid; gap: 16px; margin: 4px 0 30px; }
+.cform__row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.cform__field { display: grid; gap: 7px; }
+.cform__field label { font-size: .86rem; font-weight: 600; color: var(--text-dim); }
+.cform input, .cform textarea {
+  width: 100%; padding: 13px 15px; border-radius: 11px; font: inherit; font-size: .96rem;
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  transition: border-color .2s, box-shadow .2s;
+}
+.cform input::placeholder, .cform textarea::placeholder { color: var(--text-mute); }
+.cform input:focus, .cform textarea:focus {
+  outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-soft);
+}
+.cform textarea { resize: vertical; min-height: 130px; }
+.cform__hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.cform__submit { justify-content: center; width: 100%; border: none; cursor: pointer; }
+.cform__submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+.cform__status { margin: 2px 0 0; font-size: .92rem; font-weight: 500; min-height: 1.2em; text-align: center; }
+.cform__status.ok { color: #22c55e; }
+.cform__status.err { color: #f87171; }
+.contact__divider {
+  display: flex; align-items: center; gap: 14px;
+  color: var(--text-mute); font-size: .84rem; margin: 4px 0 22px;
+}
+.contact__divider::before, .contact__divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
 /* ---------- Footer ---------- */
 .footer { border-top: 1px solid var(--border); background: var(--bg-alt); padding: 28px 0; }
 .footer__inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
@@ -287,6 +314,7 @@ strong { color: var(--text); font-weight: 600; }
   .about { grid-template-columns: 1fr; }
   .skills, .projects { grid-template-columns: 1fr; }
   .stats__grid { grid-template-columns: repeat(2, 1fr); gap: 30px 20px; }
+  .cform__row { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 680px) {
