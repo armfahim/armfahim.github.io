@@ -137,7 +137,7 @@ contact = (
     '&nbsp;&nbsp;|&nbsp;&nbsp; '
     '<a href="https://github.com/armfahim"><font color="#6366f1">GitHub</font></a> '
     '&nbsp;&nbsp;|&nbsp;&nbsp; '
-    '<a href="https://armfahim.github.io"><font color="#6366f1">armfahim.github.io</font></a>'
+    '<a href="https://armfahim.com"><font color="#6366f1">armfahim.com</font></a>'
 )
 story.append(Paragraph(contact, styles["contact"]))
 story.append(Spacer(1, 3))
@@ -231,7 +231,7 @@ def footer(canvas, doc):
     canvas.setFont("Helvetica", 7.5)
     canvas.setFillColor(DIM)
     canvas.drawString(18 * mm, 10 * mm, "A.R.M. Fahim — Software Engineer")
-    canvas.drawRightString(A4[0] - 18 * mm, 10 * mm, "armfahim.github.io")
+    canvas.drawRightString(A4[0] - 18 * mm, 10 * mm, "armfahim.com")
     canvas.restoreState()
 
 

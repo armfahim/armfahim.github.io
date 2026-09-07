@@ -2,7 +2,7 @@
 
 Personal portfolio website for **A.R.M. Fahim**, Software Engineer (Java · Spring Boot).
 
-🔗 **Live:** https://armfahim.github.io
+🔗 **Live:** https://armfahim.com
 
 ## Built with
 
@@ -45,11 +45,12 @@ It writes straight into `assets/`, so just commit the updated PDF afterwards.
 ## Deploy (GitHub Pages)
 
 This repo is named `armfahim.github.io`, so pushing to the `main` branch
-publishes automatically at https://armfahim.github.io. In the repo:
+publishes automatically. In the repo:
 **Settings → Pages → Source: Deploy from a branch → `main` / `root`.**
+`armfahim.github.io` now redirects to the custom domain below.
 
 ## Custom domain
 
-To serve the site from `armfahim.com` (registered via Cloudflare) with free HTTPS,
-follow [docs/CUSTOM-DOMAIN.md](docs/CUSTOM-DOMAIN.md) — exact DNS records and GitHub
-steps, in order.
+The site is served from **https://armfahim.com** (registered via Cloudflare, free
+HTTPS via GitHub/Let's Encrypt). The setup — exact DNS records and GitHub steps —
+is documented in [docs/CUSTOM-DOMAIN.md](docs/CUSTOM-DOMAIN.md).
