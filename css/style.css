@@ -159,6 +159,34 @@ strong { color: var(--text); font-weight: 600; }
 .code-card__body .fn { color: #fbbf24; }
 .code-card__body .n { color: #f472b6; }
 
+/* Hero profile photo */
+.hero__photo {
+  position: relative; width: 100%; max-width: 360px; padding: 5px;
+  border-radius: 28px;
+  background: linear-gradient(150deg, var(--brand), var(--accent));
+  box-shadow: 0 30px 60px -28px rgba(0,0,0,.65);
+  transition: transform .4s var(--ease);
+}
+.hero__photo::before {
+  content: ''; position: absolute; inset: -14%; z-index: -1; border-radius: 50%;
+  background: radial-gradient(closest-side, var(--brand-soft), transparent 70%);
+  filter: blur(10px);
+}
+.hero__photo:hover { transform: translateY(-6px); }
+.hero__photo img {
+  display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover;
+  object-position: 50% 32%; border-radius: 23px;
+}
+.hero__photo-tag {
+  position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
+  display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+  padding: 8px 16px; border-radius: 999px; font-size: .82rem; font-weight: 600;
+  color: var(--text); background: color-mix(in srgb, var(--bg) 78%, transparent);
+  backdrop-filter: blur(8px); border: 1px solid var(--border);
+  box-shadow: 0 10px 24px -10px rgba(0,0,0,.55);
+}
+.hero__photo-tag .mono { font-family: 'JetBrains Mono', monospace; color: var(--brand); font-weight: 700; }
+
 .hero__scroll { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); width: 26px; height: 42px; border: 2px solid var(--text-mute); border-radius: 20px; z-index: 1; }
 .hero__scroll span { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 4px; height: 8px; border-radius: 4px; background: var(--brand); animation: scrolldot 1.6s infinite; }
 @keyframes scrolldot { 0% { opacity: 0; top: 8px; } 40% { opacity: 1; } 80% { opacity: 0; top: 22px; } 100% { opacity: 0; } }
@@ -255,6 +283,7 @@ strong { color: var(--text); font-weight: 600; }
   .hero__inner { grid-template-columns: 1fr; gap: 40px; }
   .hero__card { order: -1; }
   .code-card { transform: none; max-width: 380px; }
+  .hero__photo { max-width: 300px; }
   .about { grid-template-columns: 1fr; }
   .skills, .projects { grid-template-columns: 1fr; }
   .stats__grid { grid-template-columns: repeat(2, 1fr); gap: 30px 20px; }
