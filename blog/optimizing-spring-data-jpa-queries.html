@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Optimizing Queries in Spring Data JPA — A. R. M. Fahim</title>
+  <meta name="description" content="Practical techniques to eliminate the N+1 problem and speed up Spring Data JPA queries: fetch joins, entity graphs, DTO projections, and pagination." />
+  <link rel="canonical" href="https://armfahim.com/blog/optimizing-spring-data-jpa-queries.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://armfahim.com/blog/optimizing-spring-data-jpa-queries.html" />
+  <meta property="og:title" content="Optimizing Queries in Spring Data JPA" />
+  <meta property="og:description" content="Eliminate the N+1 problem and speed up Spring Data JPA queries — fetch joins, entity graphs, DTO projections, and pagination." />
+  <meta property="og:image" content="https://armfahim.com/assets/og-image.jpg" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%236366f1'/%3E%3Ctext x='50' y='68' font-family='Arial' font-size='52' font-weight='bold' fill='white' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/article.css" />
+</head>
+<body>
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="/" class="nav__brand">
+        <span class="nav__brand-mark">&lt;/&gt;</span>
+        <span class="nav__brand-text">A. R. M. Fahim</span>
+      </a>
+      <nav class="nav__links">
+        <a href="/#writing">Writing</a>
+        <a href="/#projects">Projects</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+      <div class="nav__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme" title="Toggle theme">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="article">
+    <a href="/#writing" class="article__back">← All writing</a>
+    <p class="article__meta">Sep 7, 2026 · 6 min read · Backend</p>
+    <h1 class="article__title">Optimizing Queries in Spring Data JPA</h1>
+    <p class="article__lead">
+      Spring Data JPA makes data access effortless — until a page that felt instant in
+      development starts firing hundreds of queries in production. Here are the techniques
+      I reach for most to keep queries fast and predictable.
+    </p>
+
+    <div class="article__body">
+      <h2>1. Find and kill the N+1 problem</h2>
+      <p>
+        The classic culprit. You load a list of entities, then touch a lazy association in a
+        loop — and each iteration triggers another query. Ten orders with their line items
+        become <strong>1 + 10 queries</strong>. At scale, that's what turns a 50&nbsp;ms
+        endpoint into a 2-second one.
+      </p>
+      <p>The first step is simply to <em>see</em> it. Turn on SQL logging in development:</p>
+      <pre><code>spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+logging.level.org.hibernate.SQL=DEBUG</code></pre>
+      <p>If you see the same query repeating with different IDs, you've found an N+1.</p>
+
+      <h2>2. Fetch joins — load associations in one query</h2>
+      <p>
+        A <code>JOIN FETCH</code> tells Hibernate to pull the association in the same query
+        instead of lazily loading it later:
+      </p>
+      <pre><code>@Query("SELECT o FROM Order o JOIN FETCH o.items WHERE o.status = :status")
+List&lt;Order&gt; findByStatusWithItems(@Param("status") Status status);</code></pre>
+      <p>
+        One query, no surprises. Just be careful combining multiple collection fetches — it
+        can produce a Cartesian product. For that, fetch one collection per query or use a
+        <code>@BatchSize</code> hint.
+      </p>
+
+      <h2>3. Entity graphs — reuse without hand-writing JPQL</h2>
+      <p>
+        When you want the same eager-loading on a derived query, an <code>@EntityGraph</code>
+        keeps it declarative:
+      </p>
+      <pre><code>@EntityGraph(attributePaths = {"items", "customer"})
+List&lt;Order&gt; findByStatus(Status status);</code></pre>
+
+      <h2>4. Don't fetch entities you only read</h2>
+      <p>
+        For read-only endpoints (lists, reports, dropdowns) you rarely need full managed
+        entities. A <strong>DTO projection</strong> selects only the columns you use, skips
+        the persistence context, and returns less data:
+      </p>
+      <pre><code>public interface OrderSummary {
+    Long getId();
+    String getCustomerName();
+    BigDecimal getTotal();
+}
+
+List&lt;OrderSummary&gt; findByStatus(Status status);</code></pre>
+      <p>
+        This is one of the highest-leverage changes for reporting screens — exactly the kind
+        of high-concurrency workload where every skipped column adds up.
+      </p>
+
+      <h2>5. Always paginate large result sets</h2>
+      <p>
+        Returning an unbounded list is a latent outage. Let Spring Data page for you:
+      </p>
+      <pre><code>Page&lt;OrderSummary&gt; findByStatus(Status status, Pageable pageable);</code></pre>
+      <p>
+        For deep pagination on huge tables, prefer <strong>keyset (cursor) pagination</strong>
+        over large <code>OFFSET</code> values, which force the database to scan and discard rows.
+      </p>
+
+      <h2>6. Push work to the database — and index it</h2>
+      <p>
+        Aggregations, filtering, and sorting belong in SQL, not in Java memory. And no query
+        plan survives a missing index: make sure the columns in your <code>WHERE</code> and
+        <code>JOIN</code> clauses are indexed, then confirm with <code>EXPLAIN</code>.
+      </p>
+
+      <blockquote>
+        <p>Rule of thumb: measure first. Turn on SQL logging, count the queries, then optimize
+        the one that actually hurts — not the one you assume is slow.</p>
+      </blockquote>
+
+      <p class="article__note">
+        ✍️ This is a starter draft on my site — feel free to rewrite it in your own voice,
+        add a real production war-story, or expand any section before you share it around.
+      </p>
+    </div>
+
+    <div class="article__cta">
+      <p>Working on something in Java or Spring Boot? I'd love to talk.</p>
+      <a href="/#contact" class="btn btn--primary">Get in Touch</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>© <span id="year"></span> A. R. M. Fahim</p>
+      <a href="/" class="footer__top">Home ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement, t = document.getElementById('themeToggle');
+      try { var s = localStorage.getItem('theme'); if (s) root.setAttribute('data-theme', s); } catch (e) {}
+      t.addEventListener('click', function () {
+        var n = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        root.setAttribute('data-theme', n);
+        try { localStorage.setItem('theme', n); } catch (e) {}
+      });
+      document.getElementById('year').textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>

@@ -53,6 +53,7 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%236366f1'/%3E%3Ctext x='50' y='68' font-family='Arial' font-size='52' font-weight='bold' fill='white' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E" />
 
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/article.css" />
 </head>
 <body>
   <!-- Progress bar -->
@@ -70,6 +71,7 @@
         <a href="#experience">Experience</a>
         <a href="#skills">Skills</a>
         <a href="#projects">Projects</a>
+        <a href="#writing">Writing</a>
         <a href="#contact">Contact</a>
       </nav>
       <div class="nav__actions">
@@ -381,11 +383,43 @@
       </div>
     </section>
 
-    <!-- Education -->
-    <section class="section" id="education">
+    <!-- Writing -->
+    <section class="section" id="writing">
       <div class="container">
         <div class="section__head reveal">
-          <span class="section__tag">05 — Education</span>
+          <span class="section__tag">05 — Writing</span>
+          <h2 class="section__title">Writing</h2>
+        </div>
+        <div class="projects">
+          <a class="project reveal" href="blog/optimizing-spring-data-jpa-queries.html">
+            <p class="post-card__meta">Sep 7, 2026 · 6 min read</p>
+            <h3>Optimizing Queries in Spring Data JPA</h3>
+            <p class="project__desc">
+              Eliminate the N+1 problem and speed up data access with fetch joins,
+              entity graphs, DTO projections, and smart pagination.
+            </p>
+            <div class="tags"><span>Java</span><span>Spring Data JPA</span><span>Performance</span></div>
+            <span class="post-card__more">Read article</span>
+          </a>
+          <a class="project reveal" href="blog/jasperreports-subreports-guide.html">
+            <p class="post-card__meta">Sep 7, 2026 · 5 min read</p>
+            <h3>Maintainable Reports with JasperReports Subreports</h3>
+            <p class="project__desc">
+              Compose complex reports from small, reusable pieces — parameters, data
+              sources, common pitfalls, and performance.
+            </p>
+            <div class="tags"><span>JasperReports</span><span>Java</span><span>Reporting</span></div>
+            <span class="post-card__more">Read article</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="section section--alt" id="education">
+      <div class="container">
+        <div class="section__head reveal">
+          <span class="section__tag">06 — Education</span>
           <h2 class="section__title">Academic Background</h2>
         </div>
         <div class="edu reveal">
@@ -402,10 +436,10 @@
     </section>
 
     <!-- Contact -->
-    <section class="section section--alt" id="contact">
+    <section class="section" id="contact">
       <div class="container">
         <div class="section__head reveal">
-          <span class="section__tag">06 — Contact</span>
+          <span class="section__tag">07 — Contact</span>
           <h2 class="section__title">Let's Work Together</h2>
         </div>
         <div class="contact reveal">
